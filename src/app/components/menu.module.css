@@ -1,0 +1,73 @@
+.noScroll {
+    overflow: hidden;
+    height: 100vh;
+  }
+  
+  /* Bouton Menu ☰ */
+  .menuButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 1000; /* Assure-toi qu'il est au-dessus du contenu */
+    color: black;
+  }
+  
+  /* Menu Overlay (fond noir qui couvre tout) */
+  .menuOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /*background: rgba(0, 0, 0, 0.9);*/
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 500;
+  }
+  
+  /* Quand le menu est ouvert */
+  .menuOverlay.open {
+    transform: translateY(0);
+  }
+ 
+  .closeButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 1001; 
+    background: black;
+    padding-block: 10px;
+    border-radius: 50%;
+    padding-inline: 15px;
+  }
+
+.list-menu ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+  }
+  
+  .list-menu ul li {
+    margin: 20px 0;
+  }
+  
+  .list-menu ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 2rem;
+  }
+  

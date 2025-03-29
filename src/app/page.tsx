@@ -1,95 +1,487 @@
+"use client";
+
 import Image from "next/image";
+import Menu from "./components/Menu";
+import Background from "./components/Background";
+import Portfoliosvg from "./components/portfolio";
+import localFont from 'next/font/local';
 import styles from "./page.module.css";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
+
+gsap.registerPlugin(ScrollToPlugin); 
+gsap.registerPlugin(ScrollTrigger);
+
+
+
+  
+
+const projects: Project[] = [
+  { title: "Moontain", slug: "Moontain", ref: "moontain", description: "Moontain est un site de type 'vlog' que j'ai créé dans le but d'apprendre à utiliser Figma pour concevoir des maquettes de sites web." },
+  { title: "Web Marmottes agency", slug: "WebMarmotte", ref: "webmarmottes", description: "Durant ma licence professionnelle en webdesign, nous avons eu pour mission de créer une agence web. Mon rôle était de concevoir un visuel attrayant."},
+  { title: "Projet J.O. 2024", slug: "JO2024" ,ref: "paris2024", description: "Conception d'une application destinée à assister les bénévoles dans diverses tâches pendant les Jeux Olympiques de Paris (projet de licence)."},
+  { title: "Visuels / Posters", slug: "Visuels" ,ref: "visuel", description: "Réalisation de divers projets visuels pour exercer ma créativité, originalité, rapidité, et bien plus encore, durant mon temps libre."},
+];
+
+const ClashDisplay = localFont({
+    src: '../../public/fonts/ClashDisplay-Regular.woff2',
+
+})
+
+const ClashDisplayMedium = localFont({
+  src: '../../public/fonts/ClashDisplay-Medium.woff2',
+
+})
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+ 
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const cursor = document.getElementById("cursor");
+
+    if (!cursor) return;
+
+    const moveCursor = (e: MouseEvent) => {
+      gsap.to(cursor, {
+        x: e.clientX,
+        y: e.clientY,
+        duration: 0.2,
+          ease: "power2.out",
+      });
+    };
+
+    window.addEventListener("mousemove", moveCursor);
+
+    return () => {
+      window.removeEventListener("mousemove", moveCursor);
+    };
+  }, []);
+  
+  useEffect(() => {
+    const arrow = document.getElementById("arrow-landing");
+    const meSection = document.getElementById("me");
+
+    if (!arrow || !meSection) return;
+
+    arrow.addEventListener("click", () => {
+      gsap.to(window, {
+        duration: 1, 
+        scrollTo: { y: "#me", offsetY: 50 }, 
+        ease: "power2.out",
+      });
+    });
+
+    return () => {
+      arrow.removeEventListener("click", () => {});
+    };
+  }, []);
+
+  useEffect(() => {
+    const h2Elements = gsap.utils.toArray(".landing-container h2"); 
+
+    gsap.fromTo(
+      h2Elements,
+      { y: "100%", opacity: 0 },
+      { y: "0%", opacity: 1, duration: 1, stagger: 0.3, ease: "power3.out" }
+    );
+  }, []);
+
+  useEffect(() => {
+    gsap.fromTo(
+      "#me .bartodisplay",
+      { width: "0%" }, 
+      {
+        width: "100%", 
+        duration: 1,
+        stagger: 0.7,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".info",
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+
+    gsap.fromTo(
+      ".text-descriptif",
+      { opacity: 0, y: 50 }, 
+      {
+        opacity: 1,
+        y: 0, 
+        duration: 1,
+        stagger: 0.7, 
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".info", 
+          start: "top 80%", 
+
+        },
+      }
+    );
+
+    
+
+  }, []);
+  
+  useEffect(() => {
+  
+    const projectSection = document.querySelector("#Projects");
+
+  
+    if (projectSection) {
+   /*   const handleScroll = () => {
+        const scrollPosition = projectSection.scrollTop;
+        if (scrollPosition > 0) {
+              gsap.to(projectSection, {
+                scrollTo: { y: projectSection.scrollHeight},
+                duration: 1, 
+              });
+          }
+      };*/
+
+      ScrollTrigger.create({
+        trigger: projectSection,          
+        start: "top 70%",                 
+        end: "bottom 80%",   
+
+        onEnter: () => { 
+      
+          gsap.to(window, {
+            duration: 1, 
+            scrollTo: { y: "#Projects", offsetY: 0 }, 
+            ease: "power2.out",
+          });
+
+        //  projectSection.addEventListener("scroll", handleScroll);
+        },
+        onLeave: () => {
+      
+          // Ajoutez ici toute action à effectuer lorsque la section quitte l'écran
+        },
+      });
+    }
+
+    // Nettoyer ScrollTrigger lorsque le composant est démonté
+    
+  }, []);
+
+  
+
+
+  const [scrollTop, setScrollTop] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const projectElement = document.getElementById('Projects');
+      const menuElement = document.querySelector('.projet-menu-bar') as HTMLElement;
+
+      if (projectElement && menuElement) {
+        const projectTop = projectElement.getBoundingClientRect().top;
+        if((projectTop <= window.innerHeight)){
+          menuElement.style.top =  `-${projectTop}px`
+        }if((projectTop < 0)){
+           
+           menuElement.style.top =  `${projectTop * -1.0}px`
+        }
+       // console.log((projectTop))
+        
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    // Nettoyer l'event listener quand le composant est démonté
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Projet
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // Pour gérer le défilement et l'index
+  const handleScrolll = () => {
+    if (!containerRef.current) return;
+
+    const containerBottom = containerRef.current.getBoundingClientRect().bottom;
+    const windowHeight = window.innerHeight;
+
+    // Si l'utilisateur est proche du bas de la page, on met à jour l'index
+    if (containerBottom <= windowHeight) {
+      if (currentIndex < projects.length - 1) {
+        setCurrentIndex(prevIndex => prevIndex + 1);
+      }
+    }
+
+    // Si l'on est au dernier index, on bloque le scroll
+    if (currentIndex >= projects.length - 1) {
+      document.body.style.overflow = 'hidden'; // Désactive le défilement
+    } else {
+      document.body.style.overflow = 'auto'; // Réactive le défilement si on n'est pas au dernier index
+    }
+  };
+
+  // Utiliser useEffect pour écouter les changements de scroll
+  useEffect(() => {
+    window.addEventListener('scroll', handleScrolll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScrolll);
+    };
+  }, [currentIndex]);
+
+  // Si l'index change, on va scrollTo au bas de la page
+  useEffect(() => {
+    if (currentIndex === projects.length - 1) {
+      window.scrollTo(0, document.body.scrollHeight); // Scroll au bas de la page lorsque l'index est au dernier projet
+    }
+  }, [currentIndex]);
+
+  
+  return (
+
+    <div>
+      <div id="cursor" ></div>
+        <Background></Background>
+         <header>
+    
+
+        <section id="landing">
+          <div className="landing-container">
+            <div>
+              <h2  className={`title  ${ClashDisplay.className}` }>UI/UX DESIGNER</h2>
+              <img src="rect.png" className="desktop nuages"/>
+            </div>
+            <div>
+              <Portfoliosvg></Portfoliosvg>
+              <h2 className={`title ${ClashDisplay.className}`}>INFOGRAPHISTE</h2>
+            </div>
+            <div>
+              <h2 className={`title ${ClashDisplay.className}`}>& FREELANCER</h2>
+              <img src="arrow.png" id="arrow-landing" className="arrow-landing"/>
+            </div>
+          </div>  
+        </section>
+
+
+
+        <section id="me">
+        <h1 className={`${ClashDisplayMedium.className}`}>VALENTIN <br></br> TOUZINAUD</h1>
+        <img src="valentinphoto.png" alt="photo de profil de valentin" id="photoprofil"/>
+        
+    
+        <div className="carrou12">
+          <ul className={` title ${ClashDisplay.className}`} id="carrou1">
+            
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+          </ul>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+
+        <div className="carrou11">
+          <ul className={` title ${ClashDisplay.className}`} id="carrou2">
+            
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+            <li>
+            Webdesign
+            </li>
+            <li>
+              UI/UX design
+            </li>
+            <li>
+            Graphic design
+            </li>
+          </ul>
+        </div>
+        
+        
+        <footer>  
+          <ul className="info">
+            <li>
+              <p className={`title ${ClashDisplay.className}`}>01</p>
+              <div className="bartodisplay"></div>
+              <p className={`title ${ClashDisplay.className} text-descriptif`}>Hey, moi c'est Valentin, un jeune webdesigner passionné, toujours en quête d'amélioration pour créer des œuvres qui, un jour, seront reconnues dans le monde entier.</p>
+            </li>
+            <li>
+              <p className={`title ${ClashDisplay.className}`}>02</p>
+              <div className="bartodisplay"></div>
+              <p className={`title ${ClashDisplay.className} text-descriptif`}>Ma passion pour le design a commencé au lycée, où j'ai suivi l'option ISN. J'ai ensuite poursuivi une licence en informatique, spécialisée en développement web, pour finir sur une licence professionnelle en webdesign, le tout à La Rochelle.</p>
+            </li>
+            <li>
+              <p className={`title ${ClashDisplay.className}`}>03</p>
+              <div className="bartodisplay"></div>
+              <p className={`title ${ClashDisplay.className} text-descriptif`}>Bien que mes études soient terminées, je reste une personne autodidacte. Aujourd'hui, je maîtrise la suite Adobe, Figma, ainsi que divers autres logiciels dédiés à la création visuelle. J'ai également des compétences en codage web.</p>
+            </li>
+            <li>
+              <p className={`title ${ClashDisplay.className}`}>04</p>
+              <div className="bartodisplay"></div>
+              <p className={`title ${ClashDisplay.className} text-descriptif`}>Je suis convaincu que l’originalité apporte beaucoup, et je m'efforce d'appliquer ce principe dans chacun de mes projets. Mon objectif est d’apporter une expérience différente pour les utilisateurs afin qu’ils puissent être satisfait.</p>
+            </li>
+          </ul>
+        </footer>
+      
+        </section>
+
+        </header>
+        <section id="Projects" className={`${ClashDisplay.className}`}>
+            <div className="projet-menu-bar">
+                    <Link href="/"  className={`${ClashDisplay.className} projet-menu-name`} >Valentin touzinaud</Link>
+                    <div className="projet-menu-open">☰</div>
+                  
+            </div>
+          <div className="projects-container" >
+                    {projects.map((project, index) => (
+           
+            <figure className="projet" id={project.slug} key={index}>
+              <Link href={`/projects/${project.slug}`} key={index} passHref>
+              <img src={`${project.ref}`+ '.png'} alt={project.title} className="mobile"/>
+              <img src={`${project.ref}` + '-desktop.png' } alt={project.title} className="desktop"/>
+            
+              <figcaption>
+                <header>
+                  <div className="number"><p>{`${String(index + 1).padStart(2, "0")}`}</p>/04</div>
+              
+                  <p className="header-projet-untitle">Projet</p>
+                </header>
+                <h3>{project.title}</h3>
+                <h3>{projects[currentIndex].title}</h3>
+                <footer>
+                  <img className="desktop arrow2" src="arrow2.png" />
+                  <div className="footer-mobile">
+                  <p>{project.description}</p>
+         
+                    <p className="footer-textdescription">Description</p>
+                
+                  </div>
+                </footer>
+              </figcaption>
+              </Link>
+            </figure>
+
+
+            
+          ))}
+          </div>
+        </section>
+        <section id="Contact">
+          <h2 className={`${ClashDisplay.className} contact-title`}>créons <span>votre</span> design</h2>
+          <div className="form-container">
+            <form>
+              <input className={`${ClashDisplay.className}`} type="text" placeholder="votre nom*"/>
+              <input className={`${ClashDisplay.className}`} type="text" placeholder="votre mail*"/>
+              <input className={`${ClashDisplay.className} message`} type="text" placeholder="votre message*"/>
+              <button className={`${ClashDisplay.className}`} type="submit">Envoyer</button>
+            </form>  
+
+            <img src="rectcontact.png" /> 
+          </div>
+    
+         
+        </section>
+        <div className="borderradius-footer"></div>
+        <footer className="footing">
+          <p className={`${ClashDisplay.className} starting`}>2024 © édition </p>
+          <p className={`${ClashDisplay.className} subtitle`}>Réseaux</p>
+          <p className={`${ClashDisplay.className}`} >Linkedin</p>
+          <p className={`${ClashDisplay.className}`} >Instagram</p>
+          <p className={`${ClashDisplay.className}`} >Contra</p>
+        </footer>
     </div>
   );
 }

@@ -1,0 +1,263 @@
+.noScroll {
+    overflow: hidden;
+    height: 100vh;
+  }
+  
+  /* Bouton Menu ☰ */
+  .menuButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 1000; /* Assure-toi qu'il est au-dessus du contenu */
+    color: black;
+  }
+  
+  /* Menu Overlay (fond noir qui couvre tout) */
+  .menuOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /*background: rgba(0, 0, 0, 0.9);*/
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 500;
+  }
+  
+  /* Quand le menu est ouvert */
+  .menuOverlay.open {
+    transform: translateY(0);
+  }
+ 
+  .closeButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 1001; 
+    background: black;
+    padding-block: 10px;
+    border-radius: 50%;
+    padding-inline: 15px;
+  }
+
+.list-menu ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+
+   
+  }
+  
+  .list-menu ul li {
+    margin: 20px 0;
+  }
+  .list-menu ul li:hover {
+    text-decoration: underline;
+  }
+  
+  .list-menu ul li a {
+    color: white;
+   
+  }
+  
+ .menu-bar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  padding: 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items:  center;
+  z-index: 1;
+ }
+
+ .menu-bar a,  .menu-bar p{
+  color: black;
+  cursor: pointer;
+ }
+
+ .menu-close p{
+  color: black;
+  cursor: pointer;
+ }
+
+ .menu-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding : 2em;
+  z-index: 2;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+  background: rgb(255 255 255);
+
+}
+.menu-overlay header{
+  display: flex;
+  max-width: 700px;
+  justify-content: space-between;
+  margin-top: 4vh;
+    padding-top: 1vh;
+    text-transform: uppercase;
+    border-top: 1px black solid;
+    margin-inline: auto;
+}
+
+.menu-close{
+  cursor: pointer;
+  justify-self: flex-end;
+  font-size: 1.5rem;
+  color: white;
+  padding: 1.25vw;
+  background: black;
+  border-radius: 100%;
+
+}
+.menu-links{
+  width: max-content;
+  padding-inline: 35vw;
+  padding-block: 12vh;
+  font-size: 3rem;
+  text-align: center;
+  width: 100%;
+  display: flex
+;
+  flex-direction: column;
+  gap: 12vh;
+  text-transform: uppercase;
+    font-size: 5rem;
+}
+.menu-link-item{
+  color : rgba(30, 30, 30, 0.5);
+}
+
+.menu-name{
+  text-transform: uppercase;
+  color: black;
+}
+.menu-open{
+  cursor: pointer;
+  font-size: 1.5rem;
+    color: white;
+    padding: 1.25vw;
+    background: black;
+    border-radius: 100%;
+}
+
+.menu-overlay footer{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+
+  justify-content: space-between;
+  align-items: anchor-center;
+  position: absolute;
+  bottom: 5vh;
+  width: 95vw;
+  left: 2.5vw;
+}
+.menu-overlay footer ul{
+  display: flex;
+    gap: 2rem;
+}
+.menu-overlay footer a{
+  font-size: 2.5rem;
+  margin-top: 6.5vh
+}
+.header-menu-text{
+  font-size: 2rem;
+  transform: translateY(20%);
+}
+
+.menu-overlay header .number{
+  display: flex;
+  align-items: baseline;
+}
+.menu-overlay header .number ul li{
+  font-size: 6rem;
+  position: absolute;
+  top : 6rem;
+  right: 0;
+}
+.menu-overlay header .number ul li:first-child{
+  
+  top: 10px
+}
+.menu-overlay header .number ul{
+  height: 6rem;
+  width: 8rem;
+  overflow: hidden;
+  position: relative;
+}
+.right-cross, .left-cross{
+  position: relative;
+  width: 40px;
+  height: 40px;
+ 
+}/*
+.right-cross{
+  bottom: 10vh;
+  right: 2.5vw;
+}
+.left-cross{
+  bottom: 10vh;
+  left: 2.5vw;
+}*/
+
+
+.right-cross::after, .left-cross::after{
+  content: " ";
+  width: 1px;
+  height: 40px;
+  background-color: black;
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.right-cross::before, .left-cross::before{
+  content: " ";
+  width: 40px;
+  height: 1px;
+  background-color: black;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+.underline-bar{
+  display: block;
+ 
+  height: 2px;
+  width: 0%; /* Commence avec une largeur de 0% */
+  background-color: black;
+  transition: width 0.3s ease-in-out;
+}
+
+
+@media (max-width: 767px) {
+  .menu-overlay footer{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+}
