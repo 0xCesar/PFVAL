@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import Menu from "./components/menu/Menu.js";
+import Loader from "./components/loader/loader";
+import { useEffect, useState } from "react";
+import ClientLayout from "./ClientLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,11 +27,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Menu />
-        {children}
+            <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

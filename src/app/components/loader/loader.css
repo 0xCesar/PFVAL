@@ -1,0 +1,97 @@
+.loader-container{
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 9999;
+    background-color: white;
+}
+
+.section-loader{
+    width: 70vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+}
+.loader-bar{
+    height: 1px;
+  /* flex: 0.8;*/
+    background-color: black;
+}
+.section-loader h2{
+    width: 25vw;
+    text-align: center;
+    text-transform: uppercase;
+}
+.section-loader-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 15vh;
+    padding-inline: 2.5vw;
+}
+.section-loader-center .bubble{
+    width: 2rem;
+    height: 2rem;
+    background-color: black;
+    border-radius: 50%;
+}
+.section-loader-center ul{
+    display: flex;
+    justify-content: space-around;
+
+}
+.cross{
+    position: relative;
+    width: 40px;
+    height: 40px;
+   
+  }
+
+  .cross::after{
+    content: " ";
+    width: 1px;
+    height: 40px;
+    background-color: black;
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .cross::before{
+    content: " ";
+    width: 40px;
+    height: 1px;
+    background-color: black;
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+.bot-right-cross{
+    position: absolute;
+    bottom: 2.5vw;
+    right: 2.5vw;
+}
+.bot-left-cross{
+    position: absolute;
+    bottom: 2.5vw;
+    left: 2.5vw;
+}
+.top-left-cross{
+    position: absolute;
+    top: 2.5vw;
+    left: 2.5vw;
+}
+.top-right-cross{
+    position: absolute;
+    top: 2.5vw;
+    right: 2.5vw;
+}
+.section-loader h2{
+    font-size: 2.8rem;
+}

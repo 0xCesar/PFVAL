@@ -198,8 +198,8 @@ body {
   overflow: scroll;
 }
 #Projects{
-  height: 100vh;
-  overflow: hidden;
+  height: 400vh;
+  overflow: scroll;
   position: relative;
 }
 .projet-menu-bar{

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Menu from "./components/Menu";
 import Background from "./components/Background";
+import ProjectList from "./components/projectMinia/project.tsx";
 import Portfoliosvg from "./components/portfolio";
 import localFont from 'next/font/local';
 import styles from "./page.module.css";
@@ -23,7 +24,10 @@ const projects: Project[] = [
   { title: "Moontain", slug: "Moontain", ref: "moontain", description: "Moontain est un site de type 'vlog' que j'ai créé dans le but d'apprendre à utiliser Figma pour concevoir des maquettes de sites web." },
   { title: "Web Marmottes agency", slug: "WebMarmotte", ref: "webmarmottes", description: "Durant ma licence professionnelle en webdesign, nous avons eu pour mission de créer une agence web. Mon rôle était de concevoir un visuel attrayant."},
   { title: "Projet J.O. 2024", slug: "JO2024" ,ref: "paris2024", description: "Conception d'une application destinée à assister les bénévoles dans diverses tâches pendant les Jeux Olympiques de Paris (projet de licence)."},
-  { title: "Visuels / Posters", slug: "Visuels" ,ref: "visuel", description: "Réalisation de divers projets visuels pour exercer ma créativité, originalité, rapidité, et bien plus encore, durant mon temps libre."},
+  { title: "Visuels / Posters",
+     slug: "Visuels" ,
+     ref: "visuel", 
+     description: "Réalisation de divers projets visuels pour exercer ma créativité, originalité, rapidité, et bien plus encore, durant mon temps libre."},
 ];
 
 const ClashDisplay = localFont({
@@ -38,7 +42,7 @@ const ClashDisplayMedium = localFont({
 
 export default function Home() {
  
-
+  // Cursor
   useEffect(() => {
     const cursor = document.getElementById("cursor");
 
@@ -60,6 +64,9 @@ export default function Home() {
     };
   }, []);
   
+ 
+
+  // Arrow Landing
   useEffect(() => {
     const arrow = document.getElementById("arrow-landing");
     const meSection = document.getElementById("me");
@@ -78,7 +85,8 @@ export default function Home() {
       arrow.removeEventListener("click", () => {});
     };
   }, []);
-
+ 
+  // Reveal Landing
   useEffect(() => {
     const h2Elements = gsap.utils.toArray(".landing-container h2"); 
 
@@ -96,7 +104,7 @@ export default function Home() {
       {
         width: "100%", 
         duration: 1,
-        stagger: 0.7,
+        stagger: 0.9,
         ease: "power2.out",
         scrollTrigger: {
           trigger: ".info",
@@ -113,7 +121,7 @@ export default function Home() {
         opacity: 1,
         y: 0, 
         duration: 1,
-        stagger: 0.7, 
+        stagger: 0.9, 
         ease: "power2.out",
         scrollTrigger: {
           trigger: ".info", 
@@ -155,7 +163,7 @@ export default function Home() {
             scrollTo: { y: "#Projects", offsetY: 0 }, 
             ease: "power2.out",
           });
-
+            
         //  projectSection.addEventListener("scroll", handleScroll);
         },
         onLeave: () => {
@@ -426,37 +434,10 @@ export default function Home() {
                   
             </div>
           <div className="projects-container" >
-                    {projects.map((project, index) => (
-           
-            <figure className="projet" id={project.slug} key={index}>
-              <Link href={`/projects/${project.slug}`} key={index} passHref>
-              <img src={`${project.ref}`+ '.png'} alt={project.title} className="mobile"/>
-              <img src={`${project.ref}` + '-desktop.png' } alt={project.title} className="desktop"/>
-            
-              <figcaption>
-                <header>
-                  <div className="number"><p>{`${String(index + 1).padStart(2, "0")}`}</p>/04</div>
-              
-                  <p className="header-projet-untitle">Projet</p>
-                </header>
-                <h3>{project.title}</h3>
-                <h3>{projects[currentIndex].title}</h3>
-                <footer>
-                  <img className="desktop arrow2" src="arrow2.png" />
-                  <div className="footer-mobile">
-                  <p>{project.description}</p>
-         
-                    <p className="footer-textdescription">Description</p>
-                
-                  </div>
-                </footer>
-              </figcaption>
-              </Link>
-            </figure>
+    
 
+        <ProjectList></ProjectList>
 
-            
-          ))}
           </div>
         </section>
         <section id="Contact">
