@@ -412,17 +412,17 @@ export default function ProjectList() {
             style={{ height: "100vh" }}
           >
             <Image 
-              src={`${project.ref}.png`}
+              src={`/${project.ref}.png`}
               alt={project.title}
               className="mobile"
-              fill
+              height={500} 	width={500} 
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
             <Image 
-              src={`${project.ref}-desktop.png`}
+              src={`/${project.ref}-desktop.png`}
               alt={project.title}
               className="desktop"
-              fill
+              height={1920} 	width={1080} 
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
@@ -453,7 +453,7 @@ export default function ProjectList() {
             
             <footer>
             <Link href={target} passHref id="linkeded">
-              <Image className="desktop arrow2" src="arrow2.png" alt="arrow" />
+              <Image className="desktop arrow2"            fill src="/arrow2.png" alt="arrow" />
             </Link>
               <div className="footer-mobile">
                 

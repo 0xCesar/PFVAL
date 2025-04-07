@@ -86,7 +86,7 @@ export default function ProjectPage({ params }: {params: Promise<{ slug: string 
    );
 
    const listPreview = project.preview?.map((preview, index) => (
-     <Image fill key={index} src={`${preview}.png`} alt={`Preview ${index}`} />
+     <Image 	height={500} 	width={500} key={index} src={"./" +` ${preview} + .png`} alt={`Preview ${index}`} />
    ));
 
 

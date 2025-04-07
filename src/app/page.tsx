@@ -266,7 +266,7 @@ export default function Home() {
           <div className="landing-container">
             <div>
               <h2  className={`title  ${ClashDisplay.className}` }>UI/UX DESIGNER</h2>
-              <Image alt="nuage" fill src="rect.png" className="desktop nuages"/>
+              <Image alt="nuage" 	height={500}	width={500} src="/rect.png" className="desktop nuages"/>
             </div>
             <div>
               <Portfoliosvg></Portfoliosvg>
@@ -274,7 +274,7 @@ export default function Home() {
             </div>
             <div>
               <h2 className={`title ${ClashDisplay.className}`}>& FREELANCER</h2>
-              <Image alt="arrow" src="arrow.png" fill id="arrow-landing" className="arrow-landing"/>
+              <Image alt="arrow" src="/arrow.png" 	height={250} 	width={250}  id="arrow-landing" className="arrow-landing"/>
             </div>
           </div>  
         </section>
@@ -283,7 +283,7 @@ export default function Home() {
 
         <section id="me">
         <h1 className={`${ClashDisplayMedium.className}`}>VALENTIN <br></br> TOUZINAUD</h1>
-        <Image src="valentinphoto.png" fill alt="photo de profil de valentin" id="photoprofil"/>
+        <Image src="/valentinphoto.png"   	height={500} 	width={500} alt="photo de profil de valentin" id="photoprofil"/>
         
     
         <div className="carrou12">
@@ -453,7 +453,7 @@ export default function Home() {
               <button className={`${ClashDisplay.className}`} type="submit">Envoyer</button>
             </form>  
 
-            <Image fill src="rectcontact.png" alt="rectcontact"/> 
+            <Image  src="/rectcontact.png"  	height={500} 	width={500} alt="rectcontact"/> 
           </div>
     
          
