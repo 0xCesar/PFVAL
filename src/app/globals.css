@@ -160,6 +160,12 @@ body {
   
   
 }
+.susutitle {
+  font-size: clamp(3rem, 4vw, 14rem);
+}
+.projet-title{
+  align-items: baseline;
+}
 .projet header .header-projet-untitle{
   font-size: 2rem;
   text-transform: uppercase;
@@ -290,6 +296,7 @@ body {
 
 #me{
   margin-inline: 7.5vw;
+  height: 120vh;
 }
 #me h1{
   font-size: 18rem;
@@ -497,6 +504,10 @@ body {
 }
 .footing .subtitle{
   color : rgba(30, 30, 30, 0.6);
+}
+
+.block-prevent-scrolling{
+  height: 60vh;
 }
 @media (max-width: 767px) { 
   .landing-container {

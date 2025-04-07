@@ -64,7 +64,7 @@ export default function Home() {
     };
   }, []);
   
- 
+
 
   // Arrow Landing
   useEffect(() => {
@@ -155,7 +155,7 @@ export default function Home() {
         trigger: projectSection,          
         start: "top 70%",                 
         end: "bottom 80%",   
-
+        markers: true,
         onEnter: () => { 
       
           gsap.to(window, {
@@ -182,7 +182,7 @@ export default function Home() {
 
   const [scrollTop, setScrollTop] = useState(0);
 
-  useEffect(() => {
+  {/*useEffect(() => {
     const handleScroll = () => {
       const projectElement = document.getElementById('Projects');
       const menuElement = document.querySelector('.projet-menu-bar') as HTMLElement;
@@ -206,7 +206,7 @@ export default function Home() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, []);*/}
 
   // Projet
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -284,7 +284,7 @@ export default function Home() {
         
     
         <div className="carrou12">
-          <ul className={` title ${ClashDisplay.className}`} id="carrou1">
+          <ul className={` susutitle ${ClashDisplay.className}`} id="carrou1">
             
             <li>
             Graphic design
@@ -339,7 +339,7 @@ export default function Home() {
 
 
         <div className="carrou11">
-          <ul className={` title ${ClashDisplay.className}`} id="carrou2">
+          <ul className={` susutitle ${ClashDisplay.className}`} id="carrou2">
             
             <li>
             Webdesign

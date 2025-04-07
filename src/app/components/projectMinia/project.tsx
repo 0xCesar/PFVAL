@@ -48,12 +48,13 @@ const projects: Project[] = [
 
 export default function ProjectList() {
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-
+  const [target, setTarget] = useState('/projects/Moontain')
   const [index, setIndex] = useState(0);
   const lastScroll = useRef(0);
   let projectslug = "Moontain"
+  const isAnimating = useRef(false);
+  
   useEffect(() => {
-
     const descChildren = document.querySelectorAll('#projectdescription > *');
     const nameChildren = document.querySelectorAll('#projectname > *');
     const numberChildren = document.querySelectorAll('#numbered > *');
@@ -68,91 +69,133 @@ export default function ProjectList() {
 
 
 
-  
-    if (moontain) {
-      ScrollTrigger.create({
-        trigger: moontain,  // L'élément déclencheur
-        start: "top 100%",    // Commence lorsque le top de 'moontain' atteint 85% de la hauteur de la fenêtre
-        end: "bottom 100%",   // Finit lorsque le bottom de 'moontain' atteint 90% de la hauteur de la fenêtre
-        markers: true,       // Affiche les marqueurs pour voir les positions de début et fin
-        onEnter: () => {
-          // Lorsque l'élément entre dans la zone de scrollTrigger, on scrolle vers la section suivante
-          gsap.to(window, {
-            duration: 1,
-            scrollTo: { y: "#webmarmottes", offsetY: 0 }, // Défile vers #webmarmottes
-            ease: "power2.out",
-            
-          });
- 
-          console.log("test");
-          window.addEventListener("scroll", handleScroll);
-        },
-        onLeave: () => {
-          // Ajoute une action ici si nécessaire lorsque l'élément quitte l'écran
-          window.removeEventListener("scroll", handleScroll);
-        },
-      });
-    }
-
-    // Tu peux également ajouter des ScrollTriggers pour les autres sections si tu veux scroller vers les autres
-    
- 
     let myIndex = 0;
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-  
+      if (isAnimating.current) return; // NE PAS animer si une anim est en cours
       if (currentScroll > lastScroll.current) {
         setIndex((prev) => {
-       
-          if(prev > 70){
-           
-            console.log("#" + projects[myIndex].ref)
+          console.log(prev)
+          if(prev > 5){
             if(myIndex == 0){
               console.log(myIndex)
+              isAnimating.current = true;
               gsap.to(window, {
-                duration: 1,
+                duration: 2,
                 scrollTo: { y: '#webmarmottes', offsetY: 0 }, 
                 ease: "power2.out",
-                onEnter : () => {
-                  console.log("ENFIN")
-                
+                onComplete: () => {
+                  isAnimating.current = false;
                   myIndex = 1;
                 }
               });
-              gsap.to(allElements, {
-                y: "0%",
+              gsap.to(descChildren, {
+                y: "-100%",
                 opacity: 1,
-                duration: 1,
+                duration: 2,
                 stagger: 0.1,
                 ease: "power3.out",
              
               });
+              gsap.to(nameChildren, {
+                y: "-100%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(numberChildren, {
+                y: "-100%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              setTarget('/projects/WebMarmotte')
+     
+              
             }
             if(myIndex == 1){
               console.log(myIndex)
+              isAnimating.current = true;
               gsap.to(window, {
-                duration: 1,
+                duration: 2,
                 scrollTo: { y: '#paris2024', offsetY: 0 }, 
                 ease: "power2.out",
-                onEnter : () => {
-               
-                  console.log("ENFIN")
+                onComplete: () => {
+                  isAnimating.current = false;
                   myIndex = 2;
                 }
               });
+              gsap.to(descChildren, {
+                y: "-200%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(nameChildren, {
+                y: "-200%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(numberChildren, {
+                y: "-200%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              setTarget('/projects/JO2024')
+           
             }
             if(myIndex == 2){
               console.log(myIndex)
+              isAnimating.current = true;
               gsap.to(window, {
-                duration: 1,
+                duration: 2,
                 scrollTo: { y: '#visuel', offsetY: 0 }, 
                 ease: "power2.out",
-                onEnter : () => {
-                  console.log("ENFIN")
+                onComplete: () => {
+                  isAnimating.current = false;
                   myIndex = 3;
                 }
+                
               });
+              gsap.to(descChildren, {
+                y: "-300%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(nameChildren, {
+                y: "-300%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(numberChildren, {
+                y: "-300%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              setTarget('/projects/Visuels');
             }
+           
             return 0;
           }
           return prev + 1;
@@ -161,45 +204,121 @@ export default function ProjectList() {
       } else if (currentScroll < lastScroll.current) {
         setIndex((prev) => {
           console.log(prev)
-          if(prev < 10){
+          if(prev < -5){
            
             console.log("#" + projects[myIndex].ref)
             if(myIndex == 1){
               console.log(myIndex)
+              isAnimating.current = true;
               gsap.to(window, {
-                duration: 1,
+                duration: 2,
                 scrollTo: { y: '#moontain', offsetY: 0 }, 
                 ease: "power2.out",
-                onEnter : () => {
-                  
+                onComplete: () => {
+                  isAnimating.current = false;
                   myIndex = 0;
                 }
+              });
+              gsap.to(descChildren, {
+                y: "0%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(nameChildren, {
+                y: "0%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(numberChildren, {
+                y: "0%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
               });
             }
             if(myIndex == 2){
               console.log(myIndex)
+              isAnimating.current = true;
               gsap.to(window, {
-                duration: 1,
+                duration: 2,
                 scrollTo: { y: '#webmarmottes', offsetY: 0 }, 
                 ease: "power2.out",
-                onEnter : () => {
-          
+                onComplete: () => {
+                  isAnimating.current = false;
                   myIndex = 1;
                 }
+              });
+              gsap.to(descChildren, {
+                y: "-100%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(nameChildren, {
+                y: "-100%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(numberChildren, {
+                y: "-100%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
               });
             }
             if(myIndex == 3){
               console.log(myIndex)
+              isAnimating.current = true;
               gsap.to(window, {
-                duration: 1,
+                duration: 2,
                 scrollTo: { y: '#paris2024', offsetY: 0 }, 
                 ease: "power2.out",
-                onEnter : () => {
-          
+                onComplete: () => {
+                  isAnimating.current = false;
                   myIndex = 2;
                 }
               });
+              gsap.to(descChildren, {
+                y: "-200%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(nameChildren, {
+                y: "-200%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
+              gsap.to(numberChildren, {
+                y: "-200%",
+                opacity: 1,
+                duration: 2,
+                stagger: 0.1,
+                ease: "power3.out",
+             
+              });
             }
+          
             return 0;
           }
           return prev - 1;
@@ -208,44 +327,69 @@ export default function ProjectList() {
     
       lastScroll.current = currentScroll;
     };
-
-
-
-  }, []);
-  
-  useEffect(() => {
-
-
     const infosSection = document.querySelector(".infos-section");
-    const projectsSection = document.querySelector("#Projects");
-  
-    if (!infosSection || !projectsSection) return;
+    const projectsSection = document.querySelector(".images-section");
+    const menuBar = document.querySelector('.projet-menu-bar') as HTMLElement;
+
+
+    const handleBeforeScroll = () => {
+      const projectElement = document.getElementById('Projects');
+      const menuElement = document.querySelector('.projet-menu-bar') as HTMLElement;
+
+      if (projectElement && menuElement) {
+        const projectTop = projectElement.getBoundingClientRect().top;
+        if((projectTop <= window.innerHeight)){
+          menuElement.style.top =  `-${projectTop}px`
+        }if((projectTop < 0)){
+           
+           menuElement.style.top =  `${projectTop * -1.0}px`
+        }
+       // console.log((projectTop))
+        
+      }
+    };
+
+    
+    if (!infosSection || !projectsSection || !menuBar) return;
  
     ScrollTrigger.create({
       trigger: projectsSection,
-      start: "top top",     // quand le haut de #Projects touche le haut du viewport
-      end: "bottom bottom", // jusqu'à la fin de la section
-      markers: true,        // à retirer après test
+      start: "top 0%",     // quand le haut de #Projects touche le haut du viewport
+      end: "bottom 10%", // jusqu'à la fin de la section
+          // à retirer après test
       onEnter: () => {
         infosSection.classList.add("fixed");
         infosSection.classList.remove("absolute");
-        console.log(infosSection.classList);
+        window.removeEventListener("scroll", handleBeforeScroll)
+        window.addEventListener("scroll", handleScroll);
+        menuBar.classList.add("fixed");
+        menuBar.classList.remove("absolute");
       },
       onLeave: () => {
         infosSection.classList.remove("fixed");
         infosSection.classList.add("absolute");
-        console.log(infosSection.classList);
+        window.removeEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleBeforeScroll);
+        menuBar.classList.remove("fixed");
+        menuBar.classList.add("absolute");
       },
       onEnterBack: () => {
         infosSection.classList.add("fixed");
         infosSection.classList.remove("absolute");
-        console.log("fixed");
+        window.removeEventListener("scroll", handleBeforeScroll);
+        window.addEventListener("scroll", handleScroll);
+        menuBar.classList.remove("fixed");
+        menuBar.classList.add("absolute");
       },
       onLeaveBack: () => {
         infosSection.classList.remove("fixed");
         infosSection.classList.add("absolute");
-        console.log("fixed");
+        window.removeEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleBeforeScroll)
+        menuBar.classList.remove("fixed");
+        menuBar.classList.add("absolute");
       },
+      
     });
   }, []);
 
@@ -303,7 +447,7 @@ export default function ProjectList() {
             </div>
             
             <footer>
-            <Link href={`/projects/${projectslug}`} passHref>
+            <Link href={target} passHref>
               <img className="desktop arrow2" src="arrow2.png" alt="arrow" />
             </Link>
               <div className="footer-mobile">

@@ -108,3 +108,12 @@
     top: 0;
 
   }
+.projet-menu-bar.fixed{
+  position: fixed;
+    top: 0;
+}
+.projet-menu-bar.absolute {
+  position: absolute;
+  top: 0;
+
+}

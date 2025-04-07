@@ -17,14 +17,13 @@ const ClashDisplay = localFont({
 
 
 export default function Loader() {
-
+    const [percentage, setPercentage] = useState(0);
    // const container = useRef();
     const tl = useRef<GSAPTimeline | null>(null);  
-        
     useGSAP(() => {
         gsap.set(".cross", { rotation: 0 });
         gsap.set(".loader-bar", { width: "0%" });
-
+    
         tl.current = gsap.timeline({ paused: true })
             .to(".cross", {
                 rotation: 180,
@@ -32,27 +31,45 @@ export default function Loader() {
                 ease: "power4.inOut",
                 delay: 0.5
             })
-            .from("header .bubble", {
-                y: -30,
-                stagger: 0.1,
-                duration: 0.2,
-                ease: "power2.inOut",
-                repeat : -1
-            }, "bubbles")
-            .from("footer .bubble", {
-                y: 30,
-                stagger: 0.1,
-                duration: 0.2,
-                repeat : -1,
-                ease: "power2.inOut"
-            }, "bubbles")
-             .to(".loader-bar", {
+            .to({ val: 0 }, {
+                val: 50,
+                duration: 0.5,
+                ease: "power2.out",
+                onUpdate: function () {
+                    setPercentage(Math.round(this.targets()[0].val));
+                }
+            }, "start")
+            .to(".loader-bar", {
                 width: "100%",
-                duration: 1.5,
+                duration: 2,
                 ease: "power4.inOut"
-            }, "bubbles");
+            }, "start")
+            .to({ val: 50 }, {
+                val: 100,
+                duration: 0.75,
+                ease: "power2.out",
+                onUpdate: function () {
+                    setPercentage(Math.round(this.targets()[0].val));
+                }
+            }, "start");
+    
+        // 🌊 Wave animation
+        gsap.to("header .bubble, footer .bubble", {
+            y: 12,                    
+            duration: 0.3,            
+            ease: "sine.inOut",
+            repeat: -1,
+            yoyo: true,
+            repeatDelay: 0,
+            stagger: {
+                each: 0.06,           
+                from: "center"         
+            }
+        });
+
         tl.current.play();
     });
+    
 
     //useGSAP( () => {
        //     gsap.set('.menu-links', {y : 75}),
@@ -115,7 +132,7 @@ export default function Loader() {
             
                 <div className="loader-bar"></div>  
             </div>
-            <div className="loader-percentage">99%</div>
+            <div className={`${ClashDisplay.className} loader-percentage`}>{percentage}</div>
             <div className="bot-right-cross cross"></div>
             <div className="bot-left-cross cross"></div>
         </div>
