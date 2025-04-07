@@ -5,7 +5,7 @@ import Background from "./components/background";
 import ProjectList from "./components/projectMinia/project";
 import Portfoliosvg from "./components/portfolio";
 import localFont from 'next/font/local';
-
+import Image from 'next/image';
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -184,7 +184,6 @@ export default function Home() {
   
 
 
-  const [scrollTop, setScrollTop] = useState(0);
 
   {/*useEffect(() => {
     const handleScroll = () => {
@@ -245,14 +244,14 @@ export default function Home() {
     return () => {
       window.removeEventListener('scroll', handleScrolll);
     };
-  }, [currentIndex]);
+  });
 
   // Si l'index change, on va scrollTo au bas de la page
   useEffect(() => {
     if (currentIndex === projects.length - 1) {
       window.scrollTo(0, document.body.scrollHeight); // Scroll au bas de la page lorsque l'index est au dernier projet
     }
-  }, [currentIndex]);
+  });
 
   
   return (
@@ -267,7 +266,7 @@ export default function Home() {
           <div className="landing-container">
             <div>
               <h2  className={`title  ${ClashDisplay.className}` }>UI/UX DESIGNER</h2>
-              <img alt="nuage" src="rect.png" className="desktop nuages"/>
+              <Image alt="nuage" fill src="rect.png" className="desktop nuages"/>
             </div>
             <div>
               <Portfoliosvg></Portfoliosvg>
@@ -275,7 +274,7 @@ export default function Home() {
             </div>
             <div>
               <h2 className={`title ${ClashDisplay.className}`}>& FREELANCER</h2>
-              <img alt="arrow" src="arrow.png" id="arrow-landing" className="arrow-landing"/>
+              <Image alt="arrow" src="arrow.png" fill id="arrow-landing" className="arrow-landing"/>
             </div>
           </div>  
         </section>
@@ -284,7 +283,7 @@ export default function Home() {
 
         <section id="me">
         <h1 className={`${ClashDisplayMedium.className}`}>VALENTIN <br></br> TOUZINAUD</h1>
-        <img src="valentinphoto.png" alt="photo de profil de valentin" id="photoprofil"/>
+        <Image src="valentinphoto.png" fill alt="photo de profil de valentin" id="photoprofil"/>
         
     
         <div className="carrou12">
@@ -408,22 +407,22 @@ export default function Home() {
             <li>
               <p className={`title ${ClashDisplay.className}`}>01</p>
               <div className="bartodisplay"></div>
-              <p className={`title ${ClashDisplay.className} text-descriptif`}>Hey, moi c'est Valentin, un jeune webdesigner passionné, toujours en quête d'amélioration pour créer des œuvres qui, un jour, seront reconnues dans le monde entier.</p>
+              <p className={`title ${ClashDisplay.className} text-descriptif`}>Hey, moi c&apos;est Valentin, un jeune webdesigner passionné, toujours en quête d&apos;amélioration pour créer des œuvres qui, un jour, seront reconnues dans le monde entier.</p>
             </li>
             <li>
               <p className={`title ${ClashDisplay.className}`}>02</p>
               <div className="bartodisplay"></div>
-              <p className={`title ${ClashDisplay.className} text-descriptif`}>Ma passion pour le design a commencé au lycée, où j'ai suivi l'option ISN. J'ai ensuite poursuivi une licence en informatique, spécialisée en développement web, pour finir sur une licence professionnelle en webdesign, le tout à La Rochelle.</p>
+              <p className={`title ${ClashDisplay.className} text-descriptif`}>Ma passion pour le design a commencé au lycée, où j&apos;ai suivi l&apos;option ISN. J&apos;ai ensuite poursuivi une licence en informatique, spécialisée en développement web, pour finir sur une licence professionnelle en webdesign, le tout à La Rochelle.</p>
             </li>
             <li>
               <p className={`title ${ClashDisplay.className}`}>03</p>
               <div className="bartodisplay"></div>
-              <p className={`title ${ClashDisplay.className} text-descriptif`}>Bien que mes études soient terminées, je reste une personne autodidacte. Aujourd'hui, je maîtrise la suite Adobe, Figma, ainsi que divers autres logiciels dédiés à la création visuelle. J'ai également des compétences en codage web.</p>
+              <p className={`title ${ClashDisplay.className} text-descriptif`}>Bien que mes études soient terminées, je reste une personne autodidacte. Aujourd&apos;hui, je maîtrise la suite Adobe, Figma, ainsi que divers autres logiciels dédiés à la création visuelle. J&apos;ai également des compétences en codage web.</p>
             </li>
             <li>
               <p className={`title ${ClashDisplay.className}`}>04</p>
               <div className="bartodisplay"></div>
-              <p className={`title ${ClashDisplay.className} text-descriptif`}>Je suis convaincu que l’originalité apporte beaucoup, et je m'efforce d'appliquer ce principe dans chacun de mes projets. Mon objectif est d’apporter une expérience différente pour les utilisateurs afin qu’ils puissent être satisfait.</p>
+              <p className={`title ${ClashDisplay.className} text-descriptif`}>Je suis convaincu que l&apos;originalité apporte beaucoup, et je m&apos;efforce d&apos;appliquer ce principe dans chacun de mes projets. Mon objectif est d&apos;apporter une expérience différente pour les utilisateurs afin qu&apos;ils puissent être satisfait.</p>
             </li>
           </ul>
         </footer>
@@ -454,7 +453,7 @@ export default function Home() {
               <button className={`${ClashDisplay.className}`} type="submit">Envoyer</button>
             </form>  
 
-            <img src="rectcontact.png" alt="rectcontact"/> 
+            <Image fill src="rectcontact.png" alt="rectcontact"/> 
           </div>
     
          

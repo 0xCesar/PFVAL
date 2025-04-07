@@ -5,9 +5,10 @@ import React , { use, useEffect } from "react";
 import { gsap } from "gsap";
 import localFont from 'next/font/local';
 import "./project.css";
+import Image from "next/image";
 
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { GetServerSideProps } from "next";
+
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -29,13 +30,8 @@ const projects : {
 const ClashDisplay = localFont({
   src: '../../../../public/fonts/ClashDisplay-Regular.woff2',
 });
-interface ProjectPageParams {
-  slug: string;  // Define 'slug' as a string, since that's what's expected
-}
 
-interface ProjectPageProps {
-  params: ProjectPageParams | Promise<ProjectPageParams>; // Ensure it's either a resolved object or a Promise
-}
+
 
 export default function ProjectPage({ params }: {params: Promise<{ slug: string }>}) {
    // Unwrap params using React.use() to handle the Promise
@@ -46,16 +42,7 @@ export default function ProjectPage({ params }: {params: Promise<{ slug: string 
    // Find the project based on the slug
    const project = projects.find((p) => p.slug === slug);
 
-   if (!project) return notFound(); // Handle case where project doesn't exist
-
-   const listCompetences = project.competence.map((competence, index) =>
-     <li key={index} className={`${ClashDisplay.className}`}>{competence}</li>
-   );
-
-   const listPreview = project.preview?.map((preview, index) => (
-     <img key={index} src={`${preview}.png`} alt={`Preview ${index}`} />
-   ));
-
+   
   useEffect(() => {
     const arrow = document.getElementById("arrow-projet");
     const meSection = document.getElementById("preview");
@@ -70,9 +57,7 @@ export default function ProjectPage({ params }: {params: Promise<{ slug: string 
       });
     });
 
-    return () => {
-      arrow.removeEventListener("click", () => {});
-    };
+    return;
   }, []);
 
   useEffect(() => {
@@ -91,17 +76,27 @@ export default function ProjectPage({ params }: {params: Promise<{ slug: string 
 
     window.addEventListener("mousemove", moveCursor);
 
-    return () => {
-      window.removeEventListener("mousemove", moveCursor);
-    };
+  return () => window.removeEventListener("mousemove", moveCursor);
   }, []);
+
+  if (!project) return notFound(); // Handle case where project doesn't exist
+
+   const listCompetences = project.competence.map((competence, index) =>
+     <li key={index} className={`${ClashDisplay.className}`}>{competence}</li>
+   );
+
+   const listPreview = project.preview?.map((preview, index) => (
+     <Image fill key={index} src={`${preview}.png`} alt={`Preview ${index}`} />
+   ));
+
+
 
   return (
     <div>
       <div id="cursor"></div>
       <section className="projet-section">
-        <img src={`${project.ref}`+ '.png'} alt={project.title} className="mobile projet-bg"/>
-        <img src={`${project.ref}` + '-desktop.png' } alt={project.title} className="projet-bg"/>    
+        <Image fill src={`${project.ref}`+ '.png'} alt={project.title} className="mobile projet-bg"/>
+        <Image fill src={`${project.ref}` + '-desktop.png' } alt={project.title} className="projet-bg"/>    
         <div className="mask"></div> 
         <div className="projet-title">
           <h1 className={`${ClashDisplay.className}`}>{project.title}</h1>
@@ -113,7 +108,7 @@ export default function ProjectPage({ params }: {params: Promise<{ slug: string 
         </ul>
 
         <p className={`${ClashDisplay.className} projet-description`}>{project.description}</p>
-        <img src="../../arrowwhite.png" id="arrow-projet" className="arrow-landing"/>
+        <Image fill src="../../arrowwhite.png" id="arrow-projet" alt="arrow" className="arrow-landing"/>
         <p className={`${ClashDisplay.className} projet-date`}>{project.date}</p>
       </section>
       <section id="preview" className="projet-preview">

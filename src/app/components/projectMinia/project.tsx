@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import Image from 'next/image';
 import "./project.css";
 import Link from "next/link";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -391,7 +392,7 @@ export default function ProjectList() {
       },
       
     });
-  }, );
+  },);
 
 
 
@@ -410,16 +411,18 @@ export default function ProjectList() {
             }}
             style={{ height: "100vh" }}
           >
-            <img
+            <Image 
               src={`${project.ref}.png`}
               alt={project.title}
               className="mobile"
+              fill
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
-            <img
+            <Image 
               src={`${project.ref}-desktop.png`}
               alt={project.title}
               className="desktop"
+              fill
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
@@ -450,16 +453,16 @@ export default function ProjectList() {
             
             <footer>
             <Link href={target} passHref id="linkeded">
-              <img className="desktop arrow2" src="arrow2.png" alt="arrow" />
+              <Image className="desktop arrow2" src="arrow2.png" alt="arrow" />
             </Link>
               <div className="footer-mobile">
                 
                     <ul id="projectdescription">
-                        <li>Moontain est un site de type 'vlog' que j'ai créé dans le but d'apprendre à utiliser Figma pour concevoir des maquettes de sites web.",
+                        <li>Moontain est un site de type &apos;vlog&apos; que j&apos;ai créé dans le but d&apos;apprendre à utiliser Figma pour concevoir des maquettes de sites web.
                         </li>
                         <li>   
       Durant ma licence professionnelle en webdesign, nous avons eu pour mission de créer une agence web. Mon rôle était de concevoir un visuel attrayant.</li>
-                        <li>Conception d'une application destinée à assister les bénévoles dans diverses tâches pendant les Jeux Olympiques de Paris (projet de licence).                        </li>
+                        <li>Conception d&apos;une application destinée à assister les bénévoles dans diverses tâches pendant les Jeux Olympiques de Paris (projet de licence).                        </li>
                         <li>Réalisation de divers projets visuels pour exercer ma créativité, originalité, rapidité, et bien plus encore, durant mon temps libre.                        </li>
                     </ul>
               
