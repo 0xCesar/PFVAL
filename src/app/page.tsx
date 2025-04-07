@@ -1,12 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import Menu from "./components/Menu";
-import Background from "./components/background.tsx";
-import ProjectList from "./components/projectMinia/project.tsx";
+
+import Background from "./components/background";
+import ProjectList from "./components/projectMinia/project";
 import Portfoliosvg from "./components/portfolio";
 import localFont from 'next/font/local';
-import styles from "./page.module.css";
+
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -20,7 +19,12 @@ gsap.registerPlugin(ScrollTrigger);
 
   
 
-const projects: Project[] = [
+const projects: {
+  title: string;
+  slug: string;
+  ref: string;
+  description: string;
+}[] = [
   { title: "Moontain", slug: "Moontain", ref: "moontain", description: "Moontain est un site de type 'vlog' que j'ai créé dans le but d'apprendre à utiliser Figma pour concevoir des maquettes de sites web." },
   { title: "Web Marmottes agency", slug: "WebMarmotte", ref: "webmarmottes", description: "Durant ma licence professionnelle en webdesign, nous avons eu pour mission de créer une agence web. Mon rôle était de concevoir un visuel attrayant."},
   { title: "Projet J.O. 2024", slug: "JO2024" ,ref: "paris2024", description: "Conception d'une application destinée à assister les bénévoles dans diverses tâches pendant les Jeux Olympiques de Paris (projet de licence)."},
@@ -263,7 +267,7 @@ export default function Home() {
           <div className="landing-container">
             <div>
               <h2  className={`title  ${ClashDisplay.className}` }>UI/UX DESIGNER</h2>
-              <img src="rect.png" className="desktop nuages"/>
+              <img alt="nuage" src="rect.png" className="desktop nuages"/>
             </div>
             <div>
               <Portfoliosvg></Portfoliosvg>
@@ -271,7 +275,7 @@ export default function Home() {
             </div>
             <div>
               <h2 className={`title ${ClashDisplay.className}`}>& FREELANCER</h2>
-              <img src="arrow.png" id="arrow-landing" className="arrow-landing"/>
+              <img alt="arrow" src="arrow.png" id="arrow-landing" className="arrow-landing"/>
             </div>
           </div>  
         </section>
@@ -450,7 +454,7 @@ export default function Home() {
               <button className={`${ClashDisplay.className}`} type="submit">Envoyer</button>
             </form>  
 
-            <img src="rectcontact.png" /> 
+            <img src="rectcontact.png" alt="rectcontact"/> 
           </div>
     
          

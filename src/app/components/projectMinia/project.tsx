@@ -8,14 +8,13 @@ import "./project.css";
 import Link from "next/link";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-type Project = {
+
+const projects:{
   title: string;
   slug: string;
   ref: string;
   description: string;
-};
-
-const projects: Project[] = [
+}[]= [
   {
     title: "Moontain",
     slug: "Moontain",
@@ -51,7 +50,7 @@ export default function ProjectList() {
   const [target, setTarget] = useState('/projects/Moontain')
   const [index, setIndex] = useState(0);
   const lastScroll = useRef(0);
-  let projectslug = "Moontain"
+
   const isAnimating = useRef(false);
   
   useEffect(() => {
@@ -59,18 +58,15 @@ export default function ProjectList() {
     const nameChildren = document.querySelectorAll('#projectname > *');
     const numberChildren = document.querySelectorAll('#numbered > *');
   
-    const allElements = [...descChildren, ...nameChildren, ...numberChildren];
-    
 
-    const moontain = document.querySelector("#moontain");
-    const webmarmottes = document.querySelector("#webmarmottes");
-    const paris2024 = document.querySelector("#paris2024");
-    const visuel = document.querySelector("#visuel");
+
+
 
 
 
     let myIndex = 0;
-    function handleScroll () {
+    const handleScroll = () => {
+ 
       const currentScroll = window.scrollY;
       if (isAnimating.current) return; // NE PAS animer si une anim est en cours
       if (currentScroll > lastScroll.current) {
@@ -203,7 +199,10 @@ export default function ProjectList() {
         
       } else if (currentScroll < lastScroll.current) {
         setIndex((prev) => {
-          console.log(prev)
+          if(index == 20){
+
+          }
+       
           if(prev < -5){
            
             console.log("#" + projects[myIndex].ref)
@@ -330,7 +329,8 @@ export default function ProjectList() {
     const infosSection = document.querySelector(".infos-section");
     const projectsSection = document.querySelector(".images-section");
     const menuBar = document.querySelector('.projet-menu-bar') as HTMLElement;
-    const linkeded = document.querySelector('.linkeded');
+    const linkeded = document.querySelector('#linkeded');
+
 
     const handleBeforeScroll = () => {
       const projectElement = document.getElementById('Projects');
@@ -350,13 +350,13 @@ export default function ProjectList() {
     };
 
     
-    if (!infosSection || !projectsSection || !menuBar || !linkeded) return;
+    if (!infosSection || !projectsSection || !menuBar || !linkeded) return ;
     linkeded.addEventListener('click', () => { window.removeEventListener('scroll', handleScroll)})
     ScrollTrigger.create({
       trigger: projectsSection,
       start: "top 0%",     // quand le haut de #Projects touche le haut du viewport
       end: "bottom 10%", // jusqu'à la fin de la section
-          // à retirer après test
+      markers : true, // à retirer après test
       onEnter: () => {
         infosSection.classList.add("fixed");
         infosSection.classList.remove("absolute");
@@ -391,7 +391,7 @@ export default function ProjectList() {
       },
       
     });
-  }, []);
+  }, );
 
 
 
@@ -405,7 +405,9 @@ export default function ProjectList() {
             key={project.slug}
             id={project.ref}
             className="image-block"
-            ref={(el) => (sectionRefs.current[index] = el)}
+            ref={(el) => {
+              sectionRefs.current[index] = el;
+            }}
             style={{ height: "100vh" }}
           >
             <img

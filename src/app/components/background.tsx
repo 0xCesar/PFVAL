@@ -1,88 +1,8 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { createNoise2D } from "simplex-noise";
+
 
 
 export default function Background() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    // Adapter le canvas à la taille de l'écran
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
- 
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const numOvals = 20; 
-    const step = 67.5;
-
-    const noiseScale = 0.05; // Ajuste la fluidité du bruit
-    const noiseStrength = 25; // Amplitude de la distorsion
-    const noise2D = createNoise2D();
-
-  
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-/*
-
-    for (let i = 1; i <= numOvals; i++) {
-        const radiusX = i * step ;
-        const radiusY = i * step * 0.6; // Facteur pour un effet plus allongé
-  
-        ctx.strokeStyle = "black";
-  
-        ctx.beginPath();
-        for (let angle = 0; angle < 360; angle++) {
-          const rad = (angle * Math.PI) / 180;
-          const noise = noise2D(i * 0.1, angle * noiseScale) * noiseStrength * (i / numOvals);
-  
-          const x = centerX + (radiusX + noise) * Math.cos(rad);
-          const y = centerY + (radiusY + noise) * Math.sin(rad);
-  
-          if (angle === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.closePath();
-        ctx.stroke();
-      }
-
- */
-      const baseRadius = 150;
-      const points = 200; // Nombre de points pour dessiner le cercle déformé
-      const frequency = 0.2; // La fréquence des déformations
-
-          ctx.clearRect(0, 0, canvas.width, canvas.height); // Efface le canvas à chaque dessin
-          ctx.beginPath(); // Début d'un nouveau chemin
-        for (let j = 1; j <= numOvals; j++){
-          for (let i = 0; i <= points; i++) {
-              let angle = (i / points) * 2 * Math.PI; // Calcul de l'angle pour chaque point
-
-              // Application de la déformation avec des fonctions trigonométriques
-              let x = centerX + Math.cos(angle) * (baseRadius + Math.sin(frequency * angle) * 30  ); // Déformation en X
-              let y = centerY + Math.sin(angle) * (baseRadius + Math.cos(frequency * angle) * 30 ); // Déformation en Y
-
-              // Tracer les points du cercle déformé
-              if (i === 0) {
-                  ctx.moveTo(x + j * step, y + j * step); // Déplacer au premier point
-              } else {
-                  ctx.lineTo(x + j * step , y + j * step); // Relier les points
-              }
-          }
-          ctx.closePath(); 
-          ctx.strokeStyle = 'black'; 
-          ctx.stroke(); 
-        }
-
-       
-      
-
-
-  }, []);
 
  // return <canvas ref={canvasRef} className="background-canvas" />;
   return <>

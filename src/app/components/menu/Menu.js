@@ -35,7 +35,7 @@ const Menu = () => {
         console.log("#"+`${index}`)
         //gsap.to("#"+`${index}`,{top: '10px', duration:0.2 ,ease: "power2.out" })
        
-         if(((hoveredIndex != null)&&(index != hoveredIndex))&&(index < hoveredIndex)){
+        if(((hoveredIndex != null)&&(index != hoveredIndex))&&(index < hoveredIndex)){
             gsap.to("#nb" + `${hoveredIndex}`, { top: "-6rem", duration: 0.5, ease: "power2.out" })
             gsap.to("#nb" + `${index}`, { top: "1rem", duration: 0.5, ease: "power2.in" });
         }
@@ -58,7 +58,7 @@ const Menu = () => {
     }
 
     useGSAP( () => {
-        gsap.set('.menu-links', {y : 75}),
+        gsap.set('.menu-links', {y : 75});
         gsap.set(".right-cross, .left-cross", { rotation: 0 }); 
 
         tl.current = gsap.timeline({ paused: true})

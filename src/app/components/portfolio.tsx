@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { gsap } from "gsap";
 
 
-export default function portfoliosvg() {
+export default function Portfoliosvg() {
 
   useEffect(() => {
     // Rotation infinie de l'élément avec l'ID "cercle"
