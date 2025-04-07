@@ -1,12 +1,13 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import React , { useEffect } from "react";
+import React , { use, useEffect } from "react";
 import { gsap } from "gsap";
 import localFont from 'next/font/local';
 import "./project.css";
 
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { GetServerSideProps } from "next";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -20,22 +21,32 @@ const projects = [
 const ClashDisplay = localFont({
   src: '../../../../public/fonts/ClashDisplay-Regular.woff2',
 });
+interface ProjectPageParams {
+  slug: string;  // Define 'slug' as a string, since that's what's expected
+}
 
-export default function ProjectPage({ params }: { params: { slug: string } }) {
-  // Wrap params with React.use to handle Promise correctly
-  const { slug } = React.use(params); 
+interface ProjectPageProps {
+  params: ProjectPageParams | Promise<ProjectPageParams>; // Ensure it's either a resolved object or a Promise
+}
 
-  const project = projects.find((p) => p.slug === slug);
+export default function ProjectPage({ params }: ProjectPageProps) {
+   // Unwrap params using React.use() to handle the Promise
+   const unwrappedParams = use(params);  // Unwraps the Promise
 
-  if (!project) return notFound(); // Handle case where project doesn't exist
+   const slug = unwrappedParams?.slug; // Access 'slug' from unwrappedParams
 
-  const listCompetences = project.competence.map((competence, index) =>
-    <li key={index} className={`${ClashDisplay.className}`}>{competence}</li>
-  );
+   // Find the project based on the slug
+   const project = projects.find((p) => p.slug === slug);
 
-  const listPreview = project.preview?.map((preview, index) => (
-    <img key={index} src={`${preview}.png`} alt={`Preview ${index}`} />
-  ));
+   if (!project) return notFound(); // Handle case where project doesn't exist
+
+   const listCompetences = project.competence.map((competence, index) =>
+     <li key={index} className={`${ClashDisplay.className}`}>{competence}</li>
+   );
+
+   const listPreview = project.preview?.map((preview, index) => (
+     <img key={index} src={`${preview}.png`} alt={`Preview ${index}`} />
+   ));
 
   useEffect(() => {
     const arrow = document.getElementById("arrow-projet");

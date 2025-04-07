@@ -70,7 +70,7 @@ export default function ProjectList() {
 
 
     let myIndex = 0;
-    const handleScroll = () => {
+    function handleScroll () {
       const currentScroll = window.scrollY;
       if (isAnimating.current) return; // NE PAS animer si une anim est en cours
       if (currentScroll > lastScroll.current) {
@@ -330,7 +330,7 @@ export default function ProjectList() {
     const infosSection = document.querySelector(".infos-section");
     const projectsSection = document.querySelector(".images-section");
     const menuBar = document.querySelector('.projet-menu-bar') as HTMLElement;
-
+    const linkeded = document.querySelector('.linkeded');
 
     const handleBeforeScroll = () => {
       const projectElement = document.getElementById('Projects');
@@ -350,8 +350,8 @@ export default function ProjectList() {
     };
 
     
-    if (!infosSection || !projectsSection || !menuBar) return;
- 
+    if (!infosSection || !projectsSection || !menuBar || !linkeded) return;
+    linkeded.addEventListener('click', () => { window.removeEventListener('scroll', handleScroll)})
     ScrollTrigger.create({
       trigger: projectsSection,
       start: "top 0%",     // quand le haut de #Projects touche le haut du viewport
@@ -447,7 +447,7 @@ export default function ProjectList() {
             </div>
             
             <footer>
-            <Link href={target} passHref>
+            <Link href={target} passHref id="linkeded">
               <img className="desktop arrow2" src="arrow2.png" alt="arrow" />
             </Link>
               <div className="footer-mobile">
