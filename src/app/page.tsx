@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Menu from "./components/Menu";
-import Background from "./components/background";
+import Background from "./components/background.tsx";
 import ProjectList from "./components/projectMinia/project.tsx";
 import Portfoliosvg from "./components/portfolio";
 import localFont from 'next/font/local';
