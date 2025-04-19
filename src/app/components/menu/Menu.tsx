@@ -26,11 +26,9 @@ const ClashDisplay = localFont({
   src: "../../../../public/fonts/ClashDisplay-Regular.woff2",
 });
 
-type MenuProps = {
-    triggerFn?: () => void;
-  };
 
-const Menu: React.FC<MenuProps> = ({ triggerFn }) => {
+
+const Menu: React.FC = () => {
     
   const container = useRef<HTMLDivElement | null>(null);
   const { isMenuOpen, setIsMenuOpen } = useMenu();

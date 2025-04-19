@@ -52,7 +52,7 @@ export default function Loader() {
               );
           }, 1000)
           setTimeout(() => {
-            let myLoaderContainer = document.querySelectorAll(".loader-container");
+            const myLoaderContainer = document.querySelectorAll(".loader-container");
             gsap.fromTo(myLoaderContainer,
             { opacity: 1, 
                   

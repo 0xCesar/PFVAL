@@ -113,7 +113,7 @@ const { setIsMenuOpen } = useMenu();
    );
 
    const listPreview = project.preview?.map((preview, index) => (
-    <div className="preview-wrapper">
+    <div key={index}  className="preview-wrapper">
            <Image 	 width={0}
   height={0}
   sizes="100vw"
