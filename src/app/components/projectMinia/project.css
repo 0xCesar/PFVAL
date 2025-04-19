@@ -90,11 +90,7 @@
     overflow: hidden;
     color: white;
   }
-  .arrow2{
-    position: absolute;
-    left: 10vw;
-    top: 75vh;
-  }
+  
 
   .infos-section.fixed {
     position: fixed;
@@ -115,5 +111,29 @@
 .projet-menu-bar.absolute {
   position: absolute;
   top: 0;
+
+}
+#linkeded{
+  display: block;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+.arrow2{
+  width: 5rem !important;
+  height: 5rem !important;
+  position: absolute !important;
+  top: unset !important;
+  bottom: 20vh !important;
+  left: 7.5vw !important;
+  z-index: 10;
+  pointer-events: auto !important;
+ 
+}
+#projectname span,
+#numbered span,
+#projectdescription span {
+  display: inline-block;
+
 
 }

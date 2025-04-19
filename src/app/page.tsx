@@ -11,6 +11,7 @@ import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { useMenu } from "./MenuContext";
 
 gsap.registerPlugin(ScrollToPlugin); 
 gsap.registerPlugin(ScrollTrigger);
@@ -45,7 +46,14 @@ const ClashDisplayMedium = localFont({
 })
 
 export default function Home() {
- 
+  const { setIsMenuOpen } = useMenu();
+
+    const text1 = useRef<HTMLParagraphElement | null>(null);
+    const text2 = useRef<HTMLParagraphElement | null>(null);
+    const text3 = useRef<HTMLParagraphElement | null>(null);
+    const text4 = useRef<HTMLParagraphElement | null>(null);
+
+
   // Cursor
   useEffect(() => {
     const cursor = document.getElementById("cursor");
@@ -97,7 +105,7 @@ export default function Home() {
     gsap.fromTo(
       h2Elements,
       { y: "100%", opacity: 0 },
-      { y: "0%", opacity: 1, duration: 1, stagger: 0.3, ease: "power3.out" }
+      { y: "0%", opacity: 1, duration: 1.5, stagger: 0.5, ease: "sine.Out" }
     );
   }, []);
 
@@ -107,8 +115,8 @@ export default function Home() {
       { width: "0%" }, 
       {
         width: "100%", 
-        duration: 1,
-        stagger: 0.9,
+        duration: 3,
+        stagger: 2.9,
         ease: "power2.out",
         scrollTrigger: {
           trigger: ".info",
@@ -118,7 +126,48 @@ export default function Home() {
       }
     );
 
-    gsap.fromTo(
+    const refs = [text1, text2, text3, text4];
+
+    const animateWords = (el: HTMLElement) => {
+      const text = el.textContent || "";
+      const words = text.split(" ");
+    
+      el.innerHTML = words
+        .map(word => `<span class="word">${word}</span>`)
+        .join(" ");
+    };
+    
+    setTimeout(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".info",
+          start: "top 80%",
+        },
+      });
+    
+      refs.forEach(ref => {
+        const el = ref.current;
+        if (!el) return;
+    
+        el.setAttribute("animate", "true"); // pour que [animate] fonctionne
+        animateWords(el); // transforme le texte en spans .word
+    
+        tl.from(
+          el.querySelectorAll(".word"),
+          {
+            y: "100%",
+            opacity: 0,
+            duration: 0.5,
+            ease: "power1.out",
+            stagger: 0.1,
+          },
+          
+        );
+      });
+    }, 500);
+
+
+   /* gsap.fromTo(
       ".text-descriptif",
       { opacity: 0, y: 50 }, 
       {
@@ -133,7 +182,7 @@ export default function Home() {
 
         },
       }
-    );
+    );*/
 
     
 
@@ -145,21 +194,12 @@ export default function Home() {
 
   
     if (projectSection) {
-   /*   const handleScroll = () => {
-        const scrollPosition = projectSection.scrollTop;
-        if (scrollPosition > 0) {
-              gsap.to(projectSection, {
-                scrollTo: { y: projectSection.scrollHeight},
-                duration: 1, 
-              });
-          }
-      };*/
 
-      ScrollTrigger.create({
+      const scrollTrigger = ScrollTrigger.create({
         trigger: projectSection,          
         start: "top 70%",                 
         end: "bottom 80%",   
-        markers: true,
+     
         onEnter: () => { 
       
           gsap.to(window, {
@@ -175,69 +215,48 @@ export default function Home() {
           // Ajoutez ici toute action à effectuer lorsque la section quitte l'écran
         },
       });
+      return () => {
+        if (scrollTrigger) {
+          scrollTrigger.kill();
+        }
+      };
+   
     }
 
-    // Nettoyer ScrollTrigger lorsque le composant est démonté
-    
+ 
   }, []);
 
   
 
 
 
-  {/*useEffect(() => {
-    const handleScroll = () => {
-      const projectElement = document.getElementById('Projects');
-      const menuElement = document.querySelector('.projet-menu-bar') as HTMLElement;
-
-      if (projectElement && menuElement) {
-        const projectTop = projectElement.getBoundingClientRect().top;
-        if((projectTop <= window.innerHeight)){
-          menuElement.style.top =  `-${projectTop}px`
-        }if((projectTop < 0)){
-           
-           menuElement.style.top =  `${projectTop * -1.0}px`
-        }
-       // console.log((projectTop))
-        
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    
-    // Nettoyer l'event listener quand le composant est démonté
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);*/}
-
+  
   // Projet
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Pour gérer le défilement et l'index
+  
   const handleScrolll = () => {
     if (!containerRef.current) return;
 
     const containerBottom = containerRef.current.getBoundingClientRect().bottom;
     const windowHeight = window.innerHeight;
 
-    // Si l'utilisateur est proche du bas de la page, on met à jour l'index
+
     if (containerBottom <= windowHeight) {
       if (currentIndex < projects.length - 1) {
         setCurrentIndex(prevIndex => prevIndex + 1);
       }
     }
 
-    // Si l'on est au dernier index, on bloque le scroll
     if (currentIndex >= projects.length - 1) {
-      document.body.style.overflow = 'hidden'; // Désactive le défilement
+      document.body.style.overflow = 'hidden'; 
     } else {
-      document.body.style.overflow = 'auto'; // Réactive le défilement si on n'est pas au dernier index
+      document.body.style.overflow = 'auto'; 
     }
   };
 
-  // Utiliser useEffect pour écouter les changements de scroll
+  
   useEffect(() => {
     window.addEventListener('scroll', handleScrolll);
 
@@ -246,10 +265,10 @@ export default function Home() {
     };
   });
 
-  // Si l'index change, on va scrollTo au bas de la page
+
   useEffect(() => {
     if (currentIndex === projects.length - 1) {
-      window.scrollTo(0, document.body.scrollHeight); // Scroll au bas de la page lorsque l'index est au dernier projet
+      window.scrollTo(0, document.body.scrollHeight); 
     }
   });
 
@@ -283,7 +302,7 @@ export default function Home() {
 
         <section id="me">
         <h1 className={`${ClashDisplayMedium.className}`}>VALENTIN <br></br> TOUZINAUD</h1>
-        <Image src="/valentinphoto.png"   	height={500} 	width={500} alt="photo de profil de valentin" id="photoprofil"/>
+        <Image src="/valentinphoto.png"   	height={400} 	width={350} alt="photo de profil de valentin" id="photoprofil"/>
         
     
         <div className="carrou12">
@@ -407,22 +426,22 @@ export default function Home() {
             <li>
               <p className={`title ${ClashDisplay.className}`}>01</p>
               <div className="bartodisplay"></div>
-              <p className={`title ${ClashDisplay.className} text-descriptif`}>Hey, moi c&apos;est Valentin, un jeune webdesigner passionné, toujours en quête d&apos;amélioration pour créer des œuvres qui, un jour, seront reconnues dans le monde entier.</p>
+              <p  ref={text1} className={`title ${ClashDisplay.className} text-descriptif`}>Hey, moi c&apos;est Valentin, un jeune webdesigner passionné, toujours en quête d&apos;amélioration pour créer des œuvres qui, un jour, seront reconnues dans le monde entier.</p>
             </li>
             <li>
               <p className={`title ${ClashDisplay.className}`}>02</p>
               <div className="bartodisplay"></div>
-              <p className={`title ${ClashDisplay.className} text-descriptif`}>Ma passion pour le design a commencé au lycée, où j&apos;ai suivi l&apos;option ISN. J&apos;ai ensuite poursuivi une licence en informatique, spécialisée en développement web, pour finir sur une licence professionnelle en webdesign, le tout à La Rochelle.</p>
+              <p ref={text2} className={`title ${ClashDisplay.className} text-descriptif`}>Ma passion pour le design est née au lycée. Depuis, j&apos;ai suivi un parcours en développement web jusqu&apos;à une licence pro en webdesign à La Rochelle.</p>
             </li>
             <li>
               <p className={`title ${ClashDisplay.className}`}>03</p>
               <div className="bartodisplay"></div>
-              <p className={`title ${ClashDisplay.className} text-descriptif`}>Bien que mes études soient terminées, je reste une personne autodidacte. Aujourd&apos;hui, je maîtrise la suite Adobe, Figma, ainsi que divers autres logiciels dédiés à la création visuelle. J&apos;ai également des compétences en codage web.</p>
+              <p ref={text3} className={`title ${ClashDisplay.className} text-descriptif`}>Même après mes études, je reste autodidacte. Je maîtrise la suite Adobe, Figma, d'autres outils créatifs, ainsi que le codage web.</p>
             </li>
             <li>
               <p className={`title ${ClashDisplay.className}`}>04</p>
               <div className="bartodisplay"></div>
-              <p className={`title ${ClashDisplay.className} text-descriptif`}>Je suis convaincu que l&apos;originalité apporte beaucoup, et je m&apos;efforce d&apos;appliquer ce principe dans chacun de mes projets. Mon objectif est d&apos;apporter une expérience différente pour les utilisateurs afin qu&apos;ils puissent être satisfait.</p>
+              <p ref={text4} className={`title ${ClashDisplay.className} text-descriptif`}>Je crois en la force de l&apos;originalité, que j&apos;intègre dans chacun de mes projets pour offrir aux utilisateurs une expérience à la fois unique et satisfaisante.</p>
             </li>
           </ul>
         </footer>
@@ -433,7 +452,7 @@ export default function Home() {
         <section id="Projects" className={`${ClashDisplay.className}`}>
             <div className="projet-menu-bar">
                     <Link href="/"  className={`${ClashDisplay.className} projet-menu-name`} >Valentin touzinaud</Link>
-                    <div className="projet-menu-open">☰</div>
+                    <div className="projet-menu-open" onClick={() => setIsMenuOpen(true)}>⚌</div>
                   
             </div>
           <div className="projects-container" >

@@ -21,10 +21,16 @@
   /* flex: 0.8;*/
     background-color: black;
 }
+.letter{
+    opacity: 0;
+    display: inline-block;
+    white-space: pre;
+}
 .section-loader h2{
     width: 25vw;
     text-align: center;
     text-transform: uppercase;
+    overflow: hidden;
 }
 .section-loader-center{
     display: flex;

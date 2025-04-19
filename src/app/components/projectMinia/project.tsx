@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Image from 'next/image';
 import "./project.css";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -51,23 +52,70 @@ export default function ProjectList() {
   const [target, setTarget] = useState('/projects/Moontain')
   const [index, setIndex] = useState(0);
   const lastScroll = useRef(0);
+  const router = useRouter();
 
   const isAnimating = useRef(false);
+  function wrapLetters(elements: NodeListOf<Element>) {
+    elements.forEach(el => {
+      const text = el.textContent;
+      if (!text) return;
   
+      el.innerHTML = ''; // Clear element
+      const letters = text.split('');
+  
+      letters.forEach(letter => {
+        const span = document.createElement('span');
+        span.textContent = letter;
+        span.style.display = 'inline-block';
+        el.appendChild(span);
+      });
+    });
+  }
+
+
+ 
+  useEffect(() => {
+    router.prefetch(target);
+  }, [target]);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault(); 
+    const infoblock = document.getElementById("infoblock");
+  
+    if (!infoblock) return;
+  
+    gsap.to(infoblock, {
+      opacity: 0,
+      y: -100,
+      duration: 1.2,
+      ease: "power2.inOut",
+      onComplete: () => {
+        router.push(target); 
+      },
+    });
+  };
+
+
   useEffect(() => {
     const descChildren = document.querySelectorAll('#projectdescription > *');
     const nameChildren = document.querySelectorAll('#projectname > *');
     const numberChildren = document.querySelectorAll('#numbered > *');
+
   
+    wrapLetters(nameChildren);
+    wrapLetters(numberChildren);
+    wrapLetters(descChildren);
 
-
-
-
-
+    const descChildrens = document.querySelectorAll('#projectdescription span');
+    const nameChildrens = document.querySelectorAll('#projectname span');
+    const numberChildrens = document.querySelectorAll('#numbered li span');
+    console.log(numberChildrens)
+    const numberOne = document.querySelectorAll('#un span');
+    const spanElements = document.querySelectorAll('#numbered li span');
 
     let myIndex = 0;
-    const handleScroll = () => {
- 
+    function handleScroll()  {
+      console.log("scroll will be handle")
       const currentScroll = window.scrollY;
       if (isAnimating.current) return; // NE PAS animer si une anim est en cours
       if (currentScroll > lastScroll.current) {
@@ -86,7 +134,7 @@ export default function ProjectList() {
                   myIndex = 1;
                 }
               });
-              gsap.to(descChildren, {
+              gsap.to(descChildrens, {
                 y: "-100%",
                 opacity: 1,
                 duration: 2,
@@ -94,7 +142,7 @@ export default function ProjectList() {
                 ease: "power3.out",
              
               });
-              gsap.to(nameChildren, {
+              gsap.to(nameChildrens, {
                 y: "-100%",
                 opacity: 1,
                 duration: 2,
@@ -102,14 +150,18 @@ export default function ProjectList() {
                 ease: "power3.out",
              
               });
-              gsap.to(numberChildren, {
-                y: "-100%",
-                opacity: 1,
-                duration: 2,
-                stagger: 0.1,
-                ease: "power3.out",
-             
+              numberChildrens.forEach((span, i) => {
+                gsap.to(span, {
+                  opacity: 1,
+                  y: 0,
+                  delay: i * 0.1, // delay progressif
+                  duration: 0.8,
+                  ease: "power2.out"
+                });
               });
+           
+             
+
               setTarget('/projects/WebMarmotte')
      
               
@@ -318,7 +370,7 @@ export default function ProjectList() {
              
               });
             }
-          
+        
             return 0;
           }
           return prev - 1;
@@ -329,6 +381,7 @@ export default function ProjectList() {
     };
     const infosSection = document.querySelector(".infos-section");
     const projectsSection = document.querySelector(".images-section");
+   
     const menuBar = document.querySelector('.projet-menu-bar') as HTMLElement;
     const linkeded = document.querySelector('#linkeded');
 
@@ -345,20 +398,32 @@ export default function ProjectList() {
            
            menuElement.style.top =  `${projectTop * -1.0}px`
         }
-       // console.log((projectTop))
+       
         
       }
+      if(linkeded){
+        linkeded.addEventListener('click', () => { window.removeEventListener('scroll', handleScroll)})
+      }
     };
-
+   
     
     if (!infosSection || !projectsSection || !menuBar || !linkeded) return ;
-    linkeded.addEventListener('click', () => { window.removeEventListener('scroll', handleScroll)})
     ScrollTrigger.create({
       trigger: projectsSection,
-      start: "top 0%",     // quand le haut de #Projects touche le haut du viewport
-      end: "bottom 10%", // jusqu'à la fin de la section
-      markers : true, // à retirer après test
+      start: "top 100%",
       onEnter: () => {
+        window.addEventListener('scroll', handleBeforeScroll)
+      }
+    })
+
+
+    ScrollTrigger.create({
+      trigger: projectsSection,
+      start: "top 0%",     
+      end: "bottom 90%", 
+
+      onEnter: () => {
+        console.log('onEnter')
         infosSection.classList.add("fixed");
         infosSection.classList.remove("absolute");
         window.removeEventListener("scroll", handleBeforeScroll)
@@ -367,22 +432,27 @@ export default function ProjectList() {
         menuBar.classList.remove("absolute");
       },
       onLeave: () => {
+        console.log('onLeave')
         infosSection.classList.remove("fixed");
-        infosSection.classList.add("absolute");
+        infosSection.classList.add("absolute");    
         window.removeEventListener("scroll", handleScroll);
         window.addEventListener("scroll", handleBeforeScroll);
         menuBar.classList.remove("fixed");
         menuBar.classList.add("absolute");
+        
       },
       onEnterBack: () => {
+        console.log('onEnterBack')
         infosSection.classList.add("fixed");
         infosSection.classList.remove("absolute");
         window.removeEventListener("scroll", handleBeforeScroll);
         window.addEventListener("scroll", handleScroll);
         menuBar.classList.remove("fixed");
         menuBar.classList.add("absolute");
+        
       },
       onLeaveBack: () => {
+        console.log('onLeaveBack')
         infosSection.classList.remove("fixed");
         infosSection.classList.add("absolute");
         window.removeEventListener("scroll", handleScroll);
@@ -392,6 +462,8 @@ export default function ProjectList() {
       },
       
     });
+
+
   },);
 
 
@@ -416,13 +488,15 @@ export default function ProjectList() {
               alt={project.title}
               className="mobile"
               height={500} 	width={500} 
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{ width: "100%", height: "100%" }}
+              quality={100} 
             />
             <Image 
               src={`/${project.ref}-desktop.png`}
               alt={project.title}
               className="desktop"
               height={1920} 	width={1080} 
+              unoptimized
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
@@ -431,14 +505,14 @@ export default function ProjectList() {
 
       <div className="infos-section">
 
-          <div className="info-block">
+          <div className="info-block" id="infoblock">
             <header>
               <div className="number">
                 <ul id="numbered">
-                    <li>01</li>
-                    <li>02</li>
-                    <li>03</li>
-                    <li>04</li>
+                    <li id="un">01</li>
+                    <li id="deux">02</li>
+                    <li id="3">03</li>
+                    <li id="4">04</li>
                 </ul>
                 <p>/04</p>
               </div>
@@ -452,8 +526,11 @@ export default function ProjectList() {
             </div>
             
             <footer>
-            <Link href={target} passHref id="linkeded">
-              <Image className="desktop arrow2"            fill src="/arrow2.png" alt="arrow" />
+            <Link href={target}  passHref legacyBehavior>
+           
+            <a  id="linkeded" onClick={handleClick}>
+              <Image className="desktop arrow2" fill quality={100} src="/arrow2.png" alt="arrow" />
+            </a>
             </Link>
               <div className="footer-mobile">
                 
