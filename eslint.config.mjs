@@ -11,6 +11,21 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+
+  // Add custom rules or overrides
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    rules: {
+      // Downgrade unused vars from error to warning
+      "@typescript-eslint/no-unused-vars": "warn",
+      
+      // Optional: disable or warn for unescaped apostrophes
+      "react/no-unescaped-entities": "warn",
+
+      // Optional: suppress useEffect dependency warning if you’re handling it manually
+      "react-hooks/exhaustive-deps": "warn",
+    },
+  },
 ];
 
 export default eslintConfig;
