@@ -134,6 +134,7 @@
 #numbered span,
 #projectdescription span {
   display: inline-block;
+  white-space: break-spaces;
 
 
 }

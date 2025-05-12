@@ -15,8 +15,7 @@ import { useMenu } from "./MenuContext";
 
 gsap.registerPlugin(ScrollToPlugin); 
 gsap.registerPlugin(ScrollTrigger);
-
-
+  
 
   
 
@@ -436,7 +435,7 @@ export default function Home() {
             <li>
               <p className={`title ${ClashDisplay.className}`}>03</p>
               <div className="bartodisplay"></div>
-              <p ref={text3} className={`title ${ClashDisplay.className} text-descriptif`}>Même après mes études, je reste autodidacte. Je maîtrise la suite Adobe, Figma, d'autres outils créatifs, ainsi que le codage web.</p>
+              <p ref={text3} className={`title ${ClashDisplay.className} text-descriptif`}>Même après mes études, je reste autodidacte. Je maîtrise la suite Adobe, Figma, d&apos;autres outils créatifs, ainsi que le codage web.</p>
             </li>
             <li>
               <p className={`title ${ClashDisplay.className}`}>04</p>

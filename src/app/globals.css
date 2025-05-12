@@ -364,7 +364,7 @@ body {
   /**margin-top: -6vh;
   transform: translate(-25%, -80%) rotate(350deg);
   margin-bottom: 10vh;**/
-  animation: carrousel 10s linear infinite; /* Animation du carrousel */
+  animation: carrousel 15s linear infinite; /* Animation du carrousel */
 
 }
 
@@ -565,8 +565,9 @@ body {
   }
 
   body{
+
     cursor: none;
- 
+   
   }
 
 }

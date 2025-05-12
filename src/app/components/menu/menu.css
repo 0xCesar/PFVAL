@@ -131,9 +131,8 @@
 
 }
 .menu-links{
+  padding-top: 4rem;
   width: max-content;
-  padding-inline: 35vw;
-  padding-block: 12vh;
   font-size: 3rem;
   text-align: center;
   width: 100%;
@@ -182,11 +181,16 @@
   width: 95vw;
   left: 2.5vw;
 }
-.menu-overlay footer ul{
+ .links-ext{
+  bottom: 5vh;
   display: flex;
     gap: 2rem;
+    position: absolute;
+    left: 50vw;
+    width: fit-content;
+    transform: translateX(-50%);
 }
-.menu-overlay footer a{
+.links-ext a{
   font-size: 2.5rem;
   margin-top: 6.5vh
 }
@@ -201,12 +205,22 @@
 }
 .menu-overlay header .number ul li{
   font-size: 6rem;
+
+}
+.menu-overlay header .number ul li span{
   position: absolute;
   top : 6rem;
+}
+.menu-overlay header .number ul li:first-child span{
+  top : 10px;
+}
+.menu-overlay header .number ul li:first-child span:first-child{
+  right: 2rem;
+}
+.menu-overlay header .number ul li span:last-child{
   right: 0;
 }
 .menu-overlay header .number ul li:first-child{
-  
   top: 10px
 }
 .menu-overlay header .number ul{

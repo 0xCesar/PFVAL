@@ -10,6 +10,7 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useMenu } from "../../MenuContext";
 
+
 // Typage du lien de menu
 type MenuLink = {
   path: string;
@@ -36,28 +37,59 @@ const Menu: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const underlineRef = useRef<(HTMLSpanElement | null)[]>([]);
 
+  
+
+  function wrapLetters(elements: NodeListOf<Element>) {
+    elements.forEach(el => {
+      const text = el.textContent;
+      if (!text) return;
+  
+      el.innerHTML = '';
+      const letters = text.split('');
+  
+      letters.forEach(letter => {
+        const span = document.createElement('span');
+        span.textContent = letter;
+        span.style.display = 'inline-block';
+        el.appendChild(span);
+      });
+    });
+  }
+
+  useEffect(() => {
+    const allNumberChildren = document.querySelectorAll('.number ul li');
+    wrapLetters(allNumberChildren);
+  }, []);
+
   // Animation barre underline
   const handleMouseEnter = (index: number) => {
-    setHoveredIndex(index);
+   
     gsap.to(underlineRef.current[index], {
       width: "100%",
       duration: 0.5,
       ease: "power2.in",
     });
+ 
+    const currentNumberElement = document.querySelectorAll(`#nb${hoveredIndex} span`);
+    const nextNumberElement = document.querySelectorAll(`#nb${index} span`)
+   
 
     if (
       hoveredIndex !== null &&
       index !== hoveredIndex &&
       index < hoveredIndex
     ) {
-      gsap.to(`#nb${hoveredIndex}`, {
+
+      gsap.to(currentNumberElement, {
         top: "-6rem",
         duration: 0.5,
+        stagger : 0.1,
         ease: "power2.out",
-      });
-      gsap.to(`#nb${index}`, {
+      }); 
+      gsap.to(nextNumberElement, {
         top: "1rem",
         duration: 0.5,
+        stagger : 0.1,
         ease: "power2.in",
       });
     } else if (
@@ -65,17 +97,20 @@ const Menu: React.FC = () => {
       index !== hoveredIndex &&
       index > hoveredIndex
     ) {
-      gsap.to(`#nb${hoveredIndex}`, {
+      gsap.to(currentNumberElement, {
         top: "6rem",
         duration: 0.5,
+        stagger : 0.1,
         ease: "power2.out",
       });
-      gsap.to(`#nb${index}`, {
+      gsap.to(nextNumberElement, {
         top: "1rem",
         duration: 0.5,
+        stagger : 0.1,
         ease: "power2.in",
       });
     }
+    setHoveredIndex(index);
   };
 
   const handleMouseLeave = (index: number) => {
@@ -178,15 +213,14 @@ const Menu: React.FC = () => {
               </Link>
               <span
                 className="underline-bar"
-                ref={(el) => (underlineRef.current[index] = el)}
+                ref={(el) => {
+                  underlineRef.current[index] = el;
+                }}
               />
             </li>
           ))}
         </ul>
-
-        <footer>
-          <div className="right-cross"></div>
-          <ul>
+        <ul className="links-ext">
             <li>
               <a>Linkedin</a>
             </li>
@@ -197,6 +231,9 @@ const Menu: React.FC = () => {
               <a>Contra</a>
             </li>
           </ul>
+        <footer>
+          <div className="right-cross"></div>
+        
           <div className="left-cross"></div>
         </footer>
       </div>
